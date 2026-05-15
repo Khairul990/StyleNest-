@@ -1,6 +1,7 @@
 import React from "react";
 import { useApp } from "../../context/AppContext";
 import { getStatusColor, ORDER_STATUSES } from "../../utils/helpers";
+import CustomSelect from "../../components/CustomSelect";
 import "./Admin.css";
 
 export default function ManageOrders() {
@@ -53,28 +54,20 @@ export default function ManageOrders() {
                   <td style={{ whiteSpace: "nowrap", fontSize: "0.82rem" }}>{o.paymentMethod}</td>
                   <td style={{ whiteSpace: "nowrap", fontSize: "0.82rem" }}>{new Date(o.date).toLocaleDateString("en-BD")}</td>
                   <td>
-                    <select
-                      value={o.status}
-                      onChange={(e) => updateOrderStatus(o.id, e.target.value)}
-                      style={{
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{
+                        width: 8, height: 8, borderRadius: "50%",
                         background: getStatusColor(o.status),
-                        color: "#fff",
-                        border: "none",
-                        padding: "5px 10px",
-                        borderRadius: 20,
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        outline: "none",
-                        minWidth: 140,
-                      }}
-                    >
-                      {ORDER_STATUSES.map((s) => (
-                        <option key={s} value={s} style={{ background: "var(--bg-secondary)", color: "var(--text-primary)" }}>
-                          {s}
-                        </option>
-                      ))}
-                    </select>
+                        flexShrink: 0,
+                        display: "inline-block",
+                      }} />
+                      <CustomSelect
+                        value={o.status}
+                        onChange={(val) => updateOrderStatus(o.id, val)}
+                        options={ORDER_STATUSES}
+                        style={{ minWidth: 160 }}
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}

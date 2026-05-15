@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
 
 // Layout components
@@ -29,7 +29,7 @@ function PublicLayout({ children }) {
   return (
     <div className="page-wrapper">
       <Navbar />
-      <main className="page-content-wrapper">{children}</main>
+      <main style={{ flex: 1, paddingTop: "72px" }}>{children}</main>
       <Footer />
     </div>
   );
@@ -40,80 +40,31 @@ export default function App() {
     <AppProvider>
       <BrowserRouter>
         <Routes>
-          {/* ── Public Routes ─────────────────────── */}
-          <Route
-            path="/"
-            element={
-              <PublicLayout>
-                <Home />
-              </PublicLayout>
-            }
-          />
-          <Route
-            path="/shop"
-            element={
-              <PublicLayout>
-                <Shop />
-              </PublicLayout>
-            }
-          />
-          <Route
-            path="/categories"
-            element={
-              <PublicLayout>
-                <Categories />
-              </PublicLayout>
-            }
-          />
-          <Route
-            path="/product/:id"
-            element={
-              <PublicLayout>
-                <ProductDetails />
-              </PublicLayout>
-            }
-          />
-          <Route
-            path="/checkout"
-            element={
-              <PublicLayout>
-                <Checkout />
-              </PublicLayout>
-            }
-          />
-          <Route
-            path="/order-confirmation"
-            element={
-              <PublicLayout>
-                <OrderConfirmation />
-              </PublicLayout>
-            }
-          />
-          <Route
-            path="/track-order"
-            element={
-              <PublicLayout>
-                <OrderTracking />
-              </PublicLayout>
-            }
-          />
-          <Route
-            path="/:slug"
-            element={
-              <PublicLayout>
-                <StaticPage />
-              </PublicLayout>
-            }
-          />
 
-          {/* ── Admin Routes ──────────────────────── */}
+          {/* ── Public Routes ───────────────────────────── */}
+          <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+          <Route path="/shop" element={<PublicLayout><Shop /></PublicLayout>} />
+          <Route path="/categories" element={<PublicLayout><Categories /></PublicLayout>} />
+          <Route path="/product/:id" element={<PublicLayout><ProductDetails /></PublicLayout>} />
+          <Route path="/checkout" element={<PublicLayout><Checkout /></PublicLayout>} />
+          <Route path="/order-confirmation" element={<PublicLayout><OrderConfirmation /></PublicLayout>} />
+          <Route path="/track-order" element={<PublicLayout><OrderTracking /></PublicLayout>} />
+          <Route path="/about" element={<PublicLayout><StaticPage /></PublicLayout>} />
+          <Route path="/contact" element={<PublicLayout><StaticPage /></PublicLayout>} />
+          <Route path="/privacy-policy" element={<PublicLayout><StaticPage /></PublicLayout>} />
+          <Route path="/terms" element={<PublicLayout><StaticPage /></PublicLayout>} />
+          <Route path="/disclaimer" element={<PublicLayout><StaticPage /></PublicLayout>} />
+
+          {/* ── Admin Routes ─────────────────────────────── */}
+          {/* Step 1: Admin login page */}
           <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="products" element={<ManageProducts />} />
-            <Route path="orders" element={<ManageOrders />} />
-            <Route path="settings" element={<SiteSettings />} />
-          </Route>
+
+          {/* Step 2: Protected admin panel pages */}
+          <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
+          <Route path="/admin/products" element={<AdminLayout><ManageProducts /></AdminLayout>} />
+          <Route path="/admin/orders" element={<AdminLayout><ManageOrders /></AdminLayout>} />
+          <Route path="/admin/settings" element={<AdminLayout><SiteSettings /></AdminLayout>} />
+
         </Routes>
       </BrowserRouter>
     </AppProvider>

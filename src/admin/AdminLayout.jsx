@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useLocation, Outlet } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
 import "./Admin.css";
 
@@ -10,12 +10,13 @@ const navItems = [
   { to: "/admin/settings", icon: "⚙️", label: "Settings" },
 ];
 
-export default function AdminLayout() {
+export default function AdminLayout({ children }) {
   const { adminLoggedIn, adminLogout, settings } = useApp();
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // Redirect to login if not authenticated
   if (!adminLoggedIn) {
     navigate("/admin");
     return null;
@@ -34,6 +35,7 @@ export default function AdminLayout() {
           <div className="admin-sidebar-logo">◆ {settings.siteName}</div>
           <p className="admin-sidebar-role">Admin Panel</p>
         </div>
+
         <nav className="admin-nav">
           {navItems.map((item) => (
             <Link
@@ -47,8 +49,9 @@ export default function AdminLayout() {
             </Link>
           ))}
         </nav>
+
         <div className="admin-sidebar-bottom">
-          <Link to="/" className="admin-nav-item" style={{ gap: 12 }}>
+          <Link to="/" className="admin-nav-item">
             <span>🌐</span>
             <span>View Website</span>
           </Link>
@@ -58,9 +61,9 @@ export default function AdminLayout() {
         </div>
       </aside>
 
-      {/* Main content */}
+      {/* Main content area */}
       <div className="admin-main">
-        {/* Topbar */}
+        {/* Top bar */}
         <header className="admin-topbar">
           <button
             className="admin-hamburger"
@@ -76,14 +79,16 @@ export default function AdminLayout() {
           </div>
         </header>
 
-        {/* Page content */}
+        {/* Rendered page content */}
         <div className="admin-content">
-          <Outlet />
+          {children}
         </div>
       </div>
 
       {/* Mobile overlay */}
-      {sidebarOpen && <div className="admin-overlay" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && (
+        <div className="admin-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
     </div>
   );
 }

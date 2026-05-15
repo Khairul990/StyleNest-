@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import ProductCard from "../components/ProductCard";
+import CustomSelect from "../components/CustomSelect";
 import "./Shop.css";
 
 export default function Shop() {
@@ -83,16 +84,17 @@ export default function Shop() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <select
-              className="form-control sort-select"
+            <CustomSelect
               value={sort}
-              onChange={(e) => setSort(e.target.value)}
-            >
-              <option value="default">Sort: Default</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="discount">Most Discounted</option>
-            </select>
+              onChange={setSort}
+              options={[
+                { value: "default", label: "Sort: Default" },
+                { value: "price-asc", label: "Price: Low to High" },
+                { value: "price-desc", label: "Price: High to Low" },
+                { value: "discount", label: "Most Discounted" },
+              ]}
+              style={{ flex: "0 0 200px" }}
+            />
           </div>
 
           <p className="result-count">{filtered.length} products found</p>

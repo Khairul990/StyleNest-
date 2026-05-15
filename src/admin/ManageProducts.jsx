@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useApp } from "../../context/AppContext";
 import { formatPrice } from "../../utils/helpers";
+import CustomSelect from "../../components/CustomSelect";
 import "./Admin.css";
 
 const EMPTY_PRODUCT = {
@@ -69,20 +70,26 @@ export default function ManageProducts() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
               <div className="form-group">
                 <label>Category</label>
-                <select className="form-control" value={form.category} onChange={set("category")}>
-                  {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
+                <CustomSelect
+                  value={form.category}
+                  onChange={(val) => setForm((prev) => ({ ...prev, category: val }))}
+                  options={categories.map(c => ({ value: c.id, label: c.name }))}
+                />
               </div>
               <div className="form-group">
                 <label>Badge</label>
-                <select className="form-control" value={form.badge} onChange={set("badge")}>
-                  <option value="">None</option>
-                  <option>Best Seller</option>
-                  <option>New Arrival</option>
-                  <option>Popular</option>
-                  <option>Trending</option>
-                  <option>Offer</option>
-                </select>
+                <CustomSelect
+                  value={form.badge}
+                  onChange={(val) => setForm((prev) => ({ ...prev, badge: val }))}
+                  options={[
+                    { value: "", label: "None" },
+                    { value: "Best Seller", label: "Best Seller" },
+                    { value: "New Arrival", label: "New Arrival" },
+                    { value: "Popular", label: "Popular" },
+                    { value: "Trending", label: "Trending" },
+                    { value: "Offer", label: "Offer" },
+                  ]}
+                />
               </div>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import { generateWhatsAppLink } from "../utils/helpers";
+import CustomSelect from "../components/CustomSelect";
 import "./Checkout.css";
 
 export default function Checkout() {
@@ -119,13 +120,11 @@ export default function Checkout() {
               </div>
               <div className="form-group">
                 <label>Payment Method</label>
-                <select className="form-control" value={form.paymentMethod} onChange={set("paymentMethod")}>
-                  <option>Cash on Delivery</option>
-                  <option>bKash</option>
-                  <option>Nagad</option>
-                  <option>Rocket</option>
-                  <option>Bank Transfer</option>
-                </select>
+                <CustomSelect
+                  value={form.paymentMethod}
+                  onChange={(val) => setForm((prev) => ({ ...prev, paymentMethod: val }))}
+                  options={["Cash on Delivery", "bKash", "Nagad", "Rocket", "Bank Transfer"]}
+                />
               </div>
             </div>
             <div className="form-group">
