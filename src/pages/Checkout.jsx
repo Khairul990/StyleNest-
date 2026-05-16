@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
-import { generateWhatsAppLink } from "../utils/helpers";
+import { generateWhatsAppLink, formatPrice } from "../utils/helpers";
 import CustomSelect from "../components/CustomSelect";
 import "./Checkout.css";
 
 export default function Checkout() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { products, settings, placeOrder } = useApp();
+  const { products, settings, placeOrder, t, locale } = useApp();
 
   const productId = searchParams.get("productId");
   const preSize = searchParams.get("size") || "";
@@ -19,7 +19,7 @@ export default function Checkout() {
 
   const [form, setForm] = useState({
     customerName: "",
-    phone: "",
+    phone: locale?.phone || "",
     whatsapp: "",
     address: "",
     productName: product?.name || "",
@@ -67,32 +67,32 @@ export default function Checkout() {
     <div className="page-content">
       <div className="container checkout-container">
         <div className="checkout-header">
-          <h1>Checkout</h1>
+          <h1>{t.checkout}</h1>
           <p>Fill in your details to complete the order</p>
         </div>
 
         <div className="checkout-layout">
           {/* Form */}
           <form className="checkout-form glass" onSubmit={handleSubmit}>
-            <h3>Customer Information</h3>
+            <h3>{t.fullName} Information</h3>
             <div className="form-row">
               <div className="form-group">
-                <label>Full Name *</label>
+                <label>{t.fullName} *</label>
                 <input className={`form-control ${errors.customerName ? "error" : ""}`} placeholder="Your full name" value={form.customerName} onChange={set("customerName")} />
                 {errors.customerName && <p className="form-error">{errors.customerName}</p>}
               </div>
               <div className="form-group">
-                <label>Phone Number *</label>
+                <label>{t.phone} *</label>
                 <input className={`form-control ${errors.phone ? "error" : ""}`} placeholder="01XXXXXXXXX" value={form.phone} onChange={set("phone")} />
                 {errors.phone && <p className="form-error">{errors.phone}</p>}
               </div>
             </div>
             <div className="form-group">
-              <label>WhatsApp Number</label>
+              <label>{t.whatsappNumber}</label>
               <input className="form-control" placeholder="Same as phone or different" value={form.whatsapp} onChange={set("whatsapp")} />
             </div>
             <div className="form-group">
-              <label>Full Delivery Address *</label>
+              <label>{t.address} *</label>
               <textarea className={`form-control ${errors.address ? "error" : ""}`} placeholder="House, Road, Area, District..." rows={3} value={form.address} onChange={set("address")} />
               {errors.address && <p className="form-error">{errors.address}</p>}
             </div>
@@ -105,35 +105,35 @@ export default function Checkout() {
             </div>
             <div className="form-row">
               <div className="form-group">
-                <label>Size</label>
+                <label>{t.size}</label>
                 <input className="form-control" placeholder="e.g. M, L, XL" value={form.size} onChange={set("size")} />
               </div>
               <div className="form-group">
-                <label>Color</label>
+                <label>{t.color}</label>
                 <input className="form-control" placeholder="e.g. Black, White" value={form.color} onChange={set("color")} />
               </div>
             </div>
             <div className="form-row">
               <div className="form-group">
-                <label>Quantity</label>
+                <label>{t.quantity}</label>
                 <input className="form-control" type="number" min={1} value={form.quantity} onChange={set("quantity")} />
               </div>
               <div className="form-group">
-                <label>Payment Method</label>
+                <label>{t.paymentMethod}</label>
                 <CustomSelect
                   value={form.paymentMethod}
                   onChange={(val) => setForm((prev) => ({ ...prev, paymentMethod: val }))}
-                  options={["Cash on Delivery", "bKash", "Nagad", "Rocket", "Bank Transfer"]}
+                  options={["Cash on Delivery", "bKash", "Nagad", "Rocket", "Paytm", "Google Pay", "Bank Transfer"]}
                 />
               </div>
             </div>
             <div className="form-group">
-              <label>Order Note (Optional)</label>
+              <label>{t.note}</label>
               <textarea className="form-control" placeholder="Any special instructions..." rows={2} value={form.note} onChange={set("note")} />
             </div>
 
             <button type="submit" className="btn-primary checkout-submit-btn" disabled={submitting}>
-              {submitting ? "Placing Order..." : "🛒 Place Order & Send via WhatsApp"}
+              {submitting ? "Placing Order..." : `🛒 ${t.placeOrder}`}
             </button>
             <p className="whatsapp-note">
               📱 After placing the order, your details will open in WhatsApp for confirmation.
@@ -142,31 +142,31 @@ export default function Checkout() {
 
           {/* Order Summary */}
           <aside className="order-summary glass">
-            <h3>Order Summary</h3>
+            <h3>{t.orderSummary}</h3>
             {product ? (
               <>
                 <img src={product.images?.[0]} alt={product.name} className="summary-img" />
                 <p className="summary-name">{product.name}</p>
                 <div className="summary-row">
                   <span>Price</span>
-                  <span>৳{product.price}</span>
+                  <span>{formatPrice(product.price, settings.currency)}</span>
                 </div>
                 <div className="summary-row">
-                  <span>Quantity</span>
+                  <span>{t.quantity}</span>
                   <span>{form.quantity}</span>
                 </div>
                 <div className="summary-row summary-total">
-                  <span>Total</span>
-                  <span>৳{product.price * Number(form.quantity)}</span>
+                  <span>{t.total}</span>
+                  <span>{formatPrice(product.price * Number(form.quantity), settings.currency)}</span>
                 </div>
               </>
             ) : (
               <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>No product selected. You can still fill in the form manually.</p>
             )}
             <div className="summary-trust">
-              <p>🔒 Secure & Safe</p>
-              <p>🚚 Fast Delivery</p>
-              <p>🔄 Easy Returns</p>
+              <p>🔒 {t.securePayment}</p>
+              <p>🚚 {t.freeDelivery}</p>
+              <p>🔄 {t.easyReturns}</p>
             </div>
           </aside>
         </div>

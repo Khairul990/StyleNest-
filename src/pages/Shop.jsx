@@ -6,7 +6,7 @@ import CustomSelect from "../components/CustomSelect";
 import "./Shop.css";
 
 export default function Shop() {
-  const { products, categories } = useApp();
+  const { products, categories, t } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("default");
@@ -40,8 +40,8 @@ export default function Shop() {
       {/* Page Header */}
       <div className="shop-header">
         <div className="container">
-          <h1>Our Collection</h1>
-          <p>Discover premium fashion pieces curated just for you</p>
+          <h1>{t.shop}</h1>
+          <p>{t.categoriesSub}</p>
         </div>
       </div>
 
@@ -49,14 +49,14 @@ export default function Shop() {
         {/* Sidebar / Filters */}
         <aside className="shop-sidebar">
           <div className="filter-section">
-            <h4>Categories</h4>
+            <h4>{t.categories}</h4>
             <ul className="cat-filter-list">
               <li>
                 <button
                   className={`cat-filter-btn ${activeCategory === "all" ? "active" : ""}`}
                   onClick={() => setCategory("all")}
                 >
-                  All Products
+                  {activeCategory === "all" ? "🛍️" : ""} {t.allProducts || "All Products"}
                 </button>
               </li>
               {categories.map((c) => (
@@ -80,7 +80,7 @@ export default function Shop() {
             <input
               className="form-control search-input"
               type="text"
-              placeholder="Search products..."
+              placeholder={t.search}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -88,16 +88,16 @@ export default function Shop() {
               value={sort}
               onChange={setSort}
               options={[
-                { value: "default", label: "Sort: Default" },
-                { value: "price-asc", label: "Price: Low to High" },
-                { value: "price-desc", label: "Price: High to Low" },
-                { value: "discount", label: "Most Discounted" },
+                { value: "default", label: t.sortDefault },
+                { value: "price-asc", label: t.priceLowHigh },
+                { value: "price-desc", label: t.priceHighLow },
+                { value: "discount", label: t.mostDiscounted },
               ]}
               style={{ flex: "0 0 200px" }}
             />
           </div>
 
-          <p className="result-count">{filtered.length} products found</p>
+          <p className="result-count">{filtered.length} {t.productsFound}</p>
 
           {filtered.length > 0 ? (
             <div className="products-grid">
@@ -108,7 +108,7 @@ export default function Shop() {
           ) : (
             <div className="no-results">
               <span>🛍️</span>
-              <p>No products found. Try a different search or category.</p>
+              <p>{t.noProducts}</p>
             </div>
           )}
         </main>

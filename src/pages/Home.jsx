@@ -6,7 +6,7 @@ import CategoryCard from "../components/CategoryCard";
 import "./Home.css";
 
 export default function Home() {
-  const { settings, products, categories } = useApp();
+  const { settings, products, categories, t, locale } = useApp();
   const navigate = useNavigate();
 
   const featured = products.filter((p) => p.featured).slice(0, 8);
@@ -29,10 +29,10 @@ export default function Home() {
           <p className="hero-subtitle">{settings.heroSubtitle}</p>
           <div className="hero-actions">
             <button className="btn-primary hero-btn" onClick={() => navigate("/shop")}>
-              {settings.heroButtonText}
+              {settings.heroButtonText || t.shopNow}
             </button>
             <button className="btn-outline hero-btn-outline" onClick={() => navigate("/categories")}>
-              Browse Categories
+              {t.shopByCategory}
             </button>
           </div>
         </div>
@@ -42,10 +42,10 @@ export default function Home() {
       <section className="trust-bar">
         <div className="container trust-grid">
           {[
-            { icon: "🚚", label: "Free Delivery", sub: "On orders above ৳999" },
-            { icon: "🔄", label: "Easy Returns", sub: "7-day return policy" },
-            { icon: "🔒", label: "Secure Payment", sub: "100% safe & secure" },
-            { icon: "💬", label: "24/7 Support", sub: "WhatsApp support" },
+            { icon: "🚚", label: t.freeDelivery, sub: `${t.freeShippingAbove} ${locale?.currency || "৳"}999` },
+            { icon: "🔄", label: t.easyReturns, sub: t.dayReturn },
+            { icon: "🔒", label: t.securePayment, sub: "100% safe & secure" },
+            { icon: "💬", label: t.support247, sub: "WhatsApp support" },
           ].map((b) => (
             <div key={b.label} className="trust-item">
               <span className="trust-icon">{b.icon}</span>
@@ -62,8 +62,8 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="section-header">
-            <p className="overline">Browse</p>
-            <h2>Shop by Category</h2>
+            <p className="overline">{t.browse}</p>
+            <h2>{t.shopByCategory}</h2>
             <div className="divider" />
           </div>
           <div className="categories-grid">
@@ -78,10 +78,10 @@ export default function Home() {
       <section className="section featured-section">
         <div className="container">
           <div className="section-header">
-            <p className="overline">Handpicked</p>
-            <h2>Featured Products</h2>
+            <p className="overline">{t.handpicked}</p>
+            <h2>{t.featuredProducts}</h2>
             <div className="divider" />
-            <p>Discover our most loved styles this season</p>
+            <p>{t.discoverLoved}</p>
           </div>
           <div className="products-grid">
             {featured.map((p) => (
@@ -90,7 +90,7 @@ export default function Home() {
           </div>
           <div className="view-all-wrap">
             <button className="btn-outline" onClick={() => navigate("/shop")}>
-              View All Products →
+              {t.viewAll} →
             </button>
           </div>
         </div>
@@ -100,11 +100,11 @@ export default function Home() {
       <section className="promo-banner">
         <div className="container promo-inner">
           <div className="promo-text">
-            <p className="overline">Limited Time Offer</p>
+            <p className="overline">{t.limitedOffer}</p>
             <h2>Up to 50% Off</h2>
             <p>On select items. Shop now and save big on premium fashion!</p>
             <button className="btn-primary" onClick={() => navigate("/shop?category=offers")}>
-              Shop Offers →
+              {t.shopOffers} →
             </button>
           </div>
           <div className="promo-image">
@@ -120,8 +120,8 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="section-header">
-            <p className="overline">Just In</p>
-            <h2>New Arrivals</h2>
+            <p className="overline">{t.justIn}</p>
+            <h2>{t.newArrivals}</h2>
             <div className="divider" />
           </div>
           <div className="products-grid">

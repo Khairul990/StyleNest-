@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useApp } from "../context/AppContext";
-import { getStatusColor, ORDER_STATUSES } from "../utils/helpers";
+import { getStatusColor, ORDER_STATUSES, formatPrice } from "../utils/helpers";
 
 export default function OrderTracking() {
-  const { getOrderById } = useApp();
+  const { getOrderById, t, settings } = useApp();
   const [orderId, setOrderId] = useState("");
   const [order, setOrder] = useState(null);
   const [notFound, setNotFound] = useState(false);
@@ -22,20 +22,22 @@ export default function OrderTracking() {
     <div className="page-content">
       <div className="container" style={{ maxWidth: 700, padding: "80px 24px" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <p className="overline" style={{ color: "var(--accent)", fontWeight: 700, letterSpacing: 3, fontSize: "0.8rem", textTransform: "uppercase", marginBottom: 12 }}>Live Tracking</p>
-          <h1>Track Your Order</h1>
-          <p style={{ color: "var(--text-secondary)", marginTop: 10 }}>Enter your Order ID to see real-time status</p>
+          <p className="overline" style={{ color: "var(--accent)", fontWeight: 700, letterSpacing: 3, fontSize: "0.8rem", textTransform: "uppercase", marginBottom: 12 }}>
+            Live Tracking
+          </p>
+          <h1>{t.trackYourOrder}</h1>
+          <p style={{ color: "var(--text-secondary)", marginTop: 10 }}>{t.enterOrderId}</p>
         </div>
 
         <form onSubmit={handleTrack} style={{ display: "flex", gap: 12, marginBottom: 40 }}>
           <input
             className="form-control"
-            placeholder="Enter Order ID (e.g. SN-ABC123-XY)"
+            placeholder={t.enterOrderId}
             value={orderId}
             onChange={(e) => setOrderId(e.target.value)}
             style={{ flex: 1 }}
           />
-          <button type="submit" className="btn-primary" style={{ whiteSpace: "nowrap" }}>Track Order</button>
+          <button type="submit" className="btn-primary" style={{ whiteSpace: "nowrap" }}>{t.track}</button>
         </form>
 
         {notFound && (
@@ -59,11 +61,11 @@ export default function OrderTracking() {
               </div>
               <div>
                 <p style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Date</p>
-                <strong>{new Date(order.date).toLocaleDateString("en-BD")}</strong>
+                <strong>{new Date(order.date).toLocaleDateString()}</strong>
               </div>
               <div>
-                <p style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Total</p>
-                <strong style={{ color: "var(--accent)" }}>৳{order.total}</strong>
+                <p style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>{t.total}</p>
+                <strong style={{ color: "var(--accent)" }}>{formatPrice(order.total, settings.currency)}</strong>
               </div>
             </div>
 
@@ -77,7 +79,7 @@ export default function OrderTracking() {
                 fontWeight: 700,
                 fontSize: "0.95rem"
               }}>
-                {order.status === "Cancelled" ? "❌ Order Cancelled" : `Current Status: ${order.status}`}
+                {order.status === "Cancelled" ? `❌ ${order.status}` : `Current Status: ${order.status}`}
               </span>
             </div>
 

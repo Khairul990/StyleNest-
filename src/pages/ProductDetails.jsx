@@ -7,7 +7,7 @@ import "./ProductDetails.css";
 export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, settings } = useApp();
+  const { products, settings, t, addToCart } = useApp();
 
   const product = products.find((p) => p.id === id);
 
@@ -20,9 +20,9 @@ export default function ProductDetails() {
     return (
       <div className="page-content">
         <div className="container" style={{ textAlign: "center", padding: "80px 0" }}>
-          <h2>Product not found</h2>
+          <h2>{t.noProducts}</h2>
           <button className="btn-primary" style={{ marginTop: 24 }} onClick={() => navigate("/shop")}>
-            Back to Shop
+            {t.back}
           </button>
         </div>
       </div>
@@ -39,12 +39,16 @@ export default function ProductDetails() {
     navigate(`/checkout?${params.toString()}`);
   };
 
+  const handleAddToCart = () => {
+    addToCart(product, selectedSize, selectedColor, quantity);
+  };
+
   return (
     <div className="page-content">
       <div className="container pd-container">
         {/* Back */}
         <button className="btn-ghost back-btn" onClick={() => navigate(-1)}>
-          ← Back
+          {t.back}
         </button>
 
         <div className="pd-layout">
@@ -74,7 +78,7 @@ export default function ProductDetails() {
           <div className="pd-details">
             {product.badge && <span className="badge">{product.badge}</span>}
             <h1 className="pd-name">{product.name}</h1>
-            <p className="pd-category">Category: {product.category}</p>
+            <p className="pd-category">{t.categories}: {product.category}</p>
 
             {/* Price */}
             <div className="pd-pricing">
@@ -82,7 +86,7 @@ export default function ProductDetails() {
               {product.originalPrice > product.price && (
                 <>
                   <span className="pd-original">{formatPrice(product.originalPrice, settings.currency)}</span>
-                  <span className="pd-saving">Save {product.discount}%</span>
+                  <span className="pd-saving">{t.save} {product.discount}%</span>
                 </>
               )}
             </div>
@@ -91,7 +95,7 @@ export default function ProductDetails() {
 
             {/* Size */}
             <div className="pd-option-group">
-              <label>Size: {selectedSize && <strong>{selectedSize}</strong>}</label>
+              <label>{t.size}: {selectedSize && <strong>{selectedSize}</strong>}</label>
               <div className="option-chips">
                 {product.sizes?.map((s) => (
                   <button
@@ -107,7 +111,7 @@ export default function ProductDetails() {
 
             {/* Color */}
             <div className="pd-option-group">
-              <label>Color: {selectedColor && <strong>{selectedColor}</strong>}</label>
+              <label>{t.color}: {selectedColor && <strong>{selectedColor}</strong>}</label>
               <div className="option-chips">
                 {product.colors?.map((c) => (
                   <button
@@ -123,7 +127,7 @@ export default function ProductDetails() {
 
             {/* Quantity */}
             <div className="pd-option-group">
-              <label>Quantity</label>
+              <label>{t.quantity}</label>
               <div className="qty-control">
                 <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
                 <span>{quantity}</span>
@@ -131,16 +135,21 @@ export default function ProductDetails() {
               </div>
             </div>
 
-            {/* Buy Now */}
-            <button className="btn-primary pd-buy-btn" onClick={handleBuyNow}>
-              🛒 Buy Now
-            </button>
+            {/* Actions */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <button className="btn-primary pd-buy-btn" onClick={handleBuyNow}>
+                {t.buyNow}
+              </button>
+              <button className="btn-outline" onClick={handleAddToCart}>
+                🛒 {t.addToCart}
+              </button>
+            </div>
 
             {/* Trust */}
             <div className="pd-trust">
-              <span>🚚 Free Delivery</span>
-              <span>🔄 7-Day Return</span>
-              <span>🔒 Secure Payment</span>
+              <span>🚚 {t.freeDelivery}</span>
+              <span>🔄 {t.dayReturn}</span>
+              <span>🔒 {t.securePayment}</span>
             </div>
           </div>
         </div>

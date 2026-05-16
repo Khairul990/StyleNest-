@@ -60,8 +60,10 @@ export const TRANSLATIONS = {
     inStock: "In Stock",
     outOfStock: "Out of Stock",
     freeDelivery: "Free Delivery",
-    dayReturn: "7-Day Return",
+    easyReturns: "Easy Returns",
     securePayment: "Secure Payment",
+    support247: "24/7 Support",
+    dayReturn: "7-Day Return",
     shareProduct: "Share",
 
     // Checkout
@@ -96,6 +98,18 @@ export const TRANSLATIONS = {
     newArrivals: "New Arrivals",
     shopByCategory: "Shop by Category",
     viewAll: "View All",
+    browse: "Browse",
+    allProducts: "All Products",
+    handpicked: "Handpicked",
+    justIn: "Just In",
+    limitedOffer: "Limited Time Offer",
+    shopOffers: "Shop Offers",
+    discoverLoved: "Discover our most loved styles this season",
+    freeShippingAbove: "On orders above",
+
+    // Categories Page
+    allCategories: "All Categories",
+    categoriesSub: "Find everything you love in one place",
 
     // Track order
     trackYourOrder: "Track Your Order",
@@ -143,8 +157,10 @@ export const TRANSLATIONS = {
     inStock: "স্টকে আছে",
     outOfStock: "স্টকে নেই",
     freeDelivery: "বিনামূল্যে ডেলিভারি",
-    dayReturn: "৭ দিনের রিটার্ন",
+    easyReturns: "সহজ রিটার্ন",
     securePayment: "নিরাপদ পেমেন্ট",
+    support247: "২৪/৭ সাপোর্ট",
+    dayReturn: "৭ দিনের রিটার্ন",
     shareProduct: "শেয়ার করুন",
 
     // Checkout
@@ -175,10 +191,22 @@ export const TRANSLATIONS = {
 
     // Home
     heroBtn: "কালেকশন দেখুন",
-    featuredProducts: "বিশেষ পণ্যসমূহ",
-    newArrivals: "নতুন আগমন",
+    featuredProducts: "সেরা পণ্যসমূহ",
+    newArrivals: "নতুন কালেকশন",
     shopByCategory: "ক্যাটাগরি অনুযায়ী কিনুন",
     viewAll: "সব দেখুন",
+    browse: "ব্রাউজ করুন",
+    allProducts: "সব পণ্য",
+    handpicked: "বাছাইকৃত",
+    justIn: "নতুন এসেছে",
+    limitedOffer: "সীমিত সময়ের অফার",
+    shopOffers: "অফার দেখুন",
+    discoverLoved: "এই সিজনের আমাদের সবচেয়ে প্রিয় স্টাইলগুলো দেখুন",
+    freeShippingAbove: "অর্ডারে ডেলিভারি ফ্রি",
+
+    // Categories Page
+    allCategories: "সব ক্যাটাগরি",
+    categoriesSub: "আপনার পছন্দের সব কিছু এক জায়গায় খুঁজে নিন",
 
     // Track order
     trackYourOrder: "অর্ডার ট্র্যাক করুন",
