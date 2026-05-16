@@ -9,6 +9,7 @@ import ToastContainer from "./components/Toast";
 import BackToTop from "./components/BackToTop";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 import AnnouncementBar from "./components/AnnouncementBar";
+import RegionModal from "./components/RegionModal";
 
 // Public pages
 import Home from "./pages/Home";
@@ -41,6 +42,7 @@ function PublicLayout({ children }) {
       <WhatsAppFloat />
       <BackToTop />
       <ToastContainer />
+      <RegionModal />
     </div>
   );
 }

@@ -5,17 +5,17 @@ import CartDrawer from "./CartDrawer";
 import "./Navbar.css";
 
 export default function Navbar() {
-  const { settings, isDarkMode, toggleDarkMode, cartCount, wishlist } = useApp();
+  const { settings, isDarkMode, toggleDarkMode, cartCount, wishlist, locale, setForceShowRegion, t } = useApp();
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const navigate = useNavigate();
 
   const links = [
-    { to: "/", label: "Home" },
-    { to: "/shop", label: "Shop" },
-    { to: "/categories", label: "Categories" },
-    { to: "/track-order", label: "Track Order" },
-    { to: "/about", label: "About" },
+    { to: "/", label: t.home },
+    { to: "/shop", label: t.shop },
+    { to: "/categories", label: t.categories },
+    { to: "/track-order", label: t.trackOrder },
+    { to: "/about", label: t.about },
   ];
 
   return (
@@ -39,6 +39,18 @@ export default function Navbar() {
 
           {/* Right actions */}
           <div className="nav-actions">
+            {/* Locale Selector */}
+            {locale && (
+              <button 
+                className="nav-locale-btn" 
+                onClick={() => setForceShowRegion(true)}
+                title={`Region: ${locale.country}`}
+              >
+                <span className="nav-flag">{locale.flag}</span>
+                <span className="nav-currency-code">{locale.currencyCode}</span>
+              </button>
+            )}
+
             {/* Dark / Light toggle */}
             <button
               className={`theme-toggle ${isDarkMode ? "is-dark" : "is-light"}`}
@@ -71,7 +83,7 @@ export default function Navbar() {
             </button>
 
             {/* Wishlist */}
-            <Link to="/wishlist" className="nav-icon-btn" title="Wishlist" aria-label="Wishlist">
+            <Link to="/wishlist" className="nav-icon-btn" title={t.wishlist} aria-label={t.wishlist}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
@@ -81,7 +93,7 @@ export default function Navbar() {
             </Link>
 
             {/* Cart */}
-            <button className="nav-icon-btn" onClick={() => setCartOpen(true)} title="Cart" aria-label="Cart">
+            <button className="nav-icon-btn" onClick={() => setCartOpen(true)} title={t.cart} aria-label={t.cart}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
                 <line x1="3" y1="6" x2="21" y2="6"/>
@@ -93,7 +105,7 @@ export default function Navbar() {
             </button>
 
             <button className="btn-primary nav-shop-btn" onClick={() => navigate("/shop")}>
-              Shop Now
+              {t.shopNow}
             </button>
 
             <button
@@ -119,8 +131,16 @@ export default function Navbar() {
               ))}
               <li>
                 <Link to="/wishlist" className="mobile-link" onClick={() => setMenuOpen(false)}>
-                  ❤️ Wishlist {wishlist.length > 0 && `(${wishlist.length})`}
+                  ❤️ {t.wishlist} {wishlist.length > 0 && `(${wishlist.length})`}
                 </Link>
+              </li>
+              <li>
+                <button 
+                  className="mobile-link" 
+                  onClick={() => { setForceShowRegion(true); setMenuOpen(false); }}
+                >
+                  {locale?.flag} {locale?.country} ({locale?.currencyCode})
+                </button>
               </li>
               <li>
                 <button className="mobile-mode-toggle" onClick={() => { toggleDarkMode(); setMenuOpen(false); }}>

@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { initialProducts, initialSettings, initialCategories } from "../data/initialData";
 import { generateOrderId } from "../utils/helpers";
+import { LOCALES, getT } from "../utils/locales";
 
 const AppContext = createContext();
 const ADMIN_PASSWORD = "1118";
@@ -66,11 +66,31 @@ export function AppProvider({ children }) {
   useEffect(() => { localStorage.setItem("sn_wishlist", JSON.stringify(wishlist)); }, [wishlist]);
   useEffect(() => { localStorage.setItem("sn_cart", JSON.stringify(cart)); }, [cart]);
 
+  // ── Locale & Translation ────────────────────────────────
+  const [locale, setLocale] = useState(() => {
+    const saved = localStorage.getItem("sn_locale");
+    return saved ? JSON.parse(saved) : null; 
+  });
+  const [forceShowRegion, setForceShowRegion] = useState(false);
+
+  const changeLocale = (countryCode) => {
+    const newLocale = LOCALES[countryCode];
+    setLocale(newLocale);
+    localStorage.setItem("sn_locale", JSON.stringify(newLocale));
+    setForceShowRegion(false);
+    
+    // Also update settings currency to match locale
+    setSettings(prev => ({ ...prev, currency: newLocale.currency }));
+  };
+
+  const t = getT(locale?.langCode || "en");
+
   // ── Apply theme ───────────────────────────────────────────
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", settings.theme);
+    document.documentElement.setAttribute("lang", locale?.langCode || "en");
     document.title = settings.siteName + " — " + settings.tagline;
-  }, [settings.theme, settings.siteName, settings.tagline]);
+  }, [settings.theme, settings.siteName, settings.tagline, locale]);
 
   // ── Light / Dark mode toggle ──────────────────────────────
   const LIGHT_THEMES = ["cream-luxury", "pure-white"];
@@ -240,6 +260,8 @@ export function AppProvider({ children }) {
         adminLoggedIn, adminLogin, adminLogout,
         isDarkMode, toggleDarkMode,
         toasts, showToast, removeToast,
+        locale, changeLocale, t,
+        forceShowRegion, setForceShowRegion,
       }}
     >
       {children}

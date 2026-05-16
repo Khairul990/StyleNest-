@@ -3,12 +3,12 @@ import { useApp } from "../context/AppContext";
 import "./AnnouncementBar.css";
 
 export default function AnnouncementBar() {
-  const { settings } = useApp();
+  const { settings, t } = useApp();
   const [visible, setVisible] = useState(true);
 
   if (!visible) return null;
 
-  const message = settings.announcementText || "🚚 Free Delivery on orders above ৳999 | Use code STYLE10 for 10% off!";
+  const message = settings.announcementText || t.announcementText;
 
   return (
     <div className="announcement-bar">

@@ -6,7 +6,7 @@ import "./ProductCard.css";
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
-  const { settings, toggleWishlist, isWishlisted, addToCart } = useApp();
+  const { settings, toggleWishlist, isWishlisted, addToCart, t } = useApp();
   const wishlisted = isWishlisted(product.id);
 
   const handleBuyNow = (e) => {
@@ -53,8 +53,8 @@ export default function ProductCard({ product }) {
         </button>
 
         {/* Quick add to cart on hover */}
-        <button className="card-cart-btn" onClick={handleAddToCart} aria-label="Add to cart">
-          🛒 Add to Cart
+        <button className="card-cart-btn" onClick={handleAddToCart} aria-label={t.addToCart}>
+          🛒 {t.addToCart}
         </button>
       </div>
 
@@ -89,7 +89,7 @@ export default function ProductCard({ product }) {
 
         {/* Buy Now */}
         <button className="btn-primary card-buy-btn" onClick={handleBuyNow}>
-          Buy Now
+          {t.buyNow}
         </button>
       </div>
     </div>
