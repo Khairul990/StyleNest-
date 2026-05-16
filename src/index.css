@@ -403,7 +403,7 @@ textarea.form-control { resize: vertical; min-height: 100px; }
 
 /* ── Page wrapper ─────────────────────────────────────────── */
 .page-wrapper { min-height: 100vh; display: flex; flex-direction: column; }
-.page-content { flex: 1; padding-top: 72px; } /* account for fixed navbar */
+.page-content { flex: 1; padding-top: 108px; } /* navbar(72) + announcement(36) */
 .page-content-wrapper { flex: 1; }
 
 /* ── Scrollbar ────────────────────────────────────────────── */

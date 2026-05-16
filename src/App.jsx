@@ -5,6 +5,10 @@ import { AppProvider } from "./context/AppContext";
 // Layout components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ToastContainer from "./components/Toast";
+import BackToTop from "./components/BackToTop";
+import WhatsAppFloat from "./components/WhatsAppFloat";
+import AnnouncementBar from "./components/AnnouncementBar";
 
 // Public pages
 import Home from "./pages/Home";
@@ -14,6 +18,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import OrderTracking from "./pages/OrderTracking";
+import Wishlist from "./pages/Wishlist";
 import StaticPage from "./pages/StaticPage";
 
 // Admin pages
@@ -22,15 +27,20 @@ import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/Dashboard";
 import ManageProducts from "./admin/ManageProducts";
 import ManageOrders from "./admin/ManageOrders";
+import ManageCategories from "./admin/ManageCategories";
 import SiteSettings from "./admin/SiteSettings";
 
 // Public layout wrapper
 function PublicLayout({ children }) {
   return (
     <div className="page-wrapper">
+      <AnnouncementBar />
       <Navbar />
-      <main style={{ flex: 1, paddingTop: "72px" }}>{children}</main>
+      <main style={{ flex: 1 }}>{children}</main>
       <Footer />
+      <WhatsAppFloat />
+      <BackToTop />
+      <ToastContainer />
     </div>
   );
 }
@@ -49,6 +59,7 @@ export default function App() {
           <Route path="/checkout" element={<PublicLayout><Checkout /></PublicLayout>} />
           <Route path="/order-confirmation" element={<PublicLayout><OrderConfirmation /></PublicLayout>} />
           <Route path="/track-order" element={<PublicLayout><OrderTracking /></PublicLayout>} />
+          <Route path="/wishlist" element={<PublicLayout><Wishlist /></PublicLayout>} />
           <Route path="/about" element={<PublicLayout><StaticPage /></PublicLayout>} />
           <Route path="/contact" element={<PublicLayout><StaticPage /></PublicLayout>} />
           <Route path="/privacy-policy" element={<PublicLayout><StaticPage /></PublicLayout>} />
@@ -56,13 +67,11 @@ export default function App() {
           <Route path="/disclaimer" element={<PublicLayout><StaticPage /></PublicLayout>} />
 
           {/* ── Admin Routes ─────────────────────────────── */}
-          {/* Step 1: Admin login page */}
           <Route path="/admin" element={<AdminLogin />} />
-
-          {/* Step 2: Protected admin panel pages */}
           <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
           <Route path="/admin/products" element={<AdminLayout><ManageProducts /></AdminLayout>} />
           <Route path="/admin/orders" element={<AdminLayout><ManageOrders /></AdminLayout>} />
+          <Route path="/admin/categories" element={<AdminLayout><ManageCategories /></AdminLayout>} />
           <Route path="/admin/settings" element={<AdminLayout><SiteSettings /></AdminLayout>} />
 
         </Routes>

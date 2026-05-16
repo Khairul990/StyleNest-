@@ -6,6 +6,7 @@ import "./Admin.css";
 const navItems = [
   { to: "/admin/dashboard", icon: "📊", label: "Dashboard" },
   { to: "/admin/products", icon: "📦", label: "Products" },
+  { to: "/admin/categories", icon: "🏷️", label: "Categories" },
   { to: "/admin/orders", icon: "🛒", label: "Orders" },
   { to: "/admin/settings", icon: "⚙️", label: "Settings" },
 ];

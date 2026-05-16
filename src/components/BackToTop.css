@@ -1,0 +1,26 @@
+.back-to-top {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  z-index: 900;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--badge-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+}
+.back-to-top:hover {
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+}
+
+@media (max-width: 480px) {
+  .back-to-top { bottom: 100px; right: 16px; }
+}
