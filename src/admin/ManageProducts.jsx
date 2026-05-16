@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useApp } from "../../context/AppContext";
-import { formatPrice } from "../../utils/helpers";
-import CustomSelect from "../../components/CustomSelect";
+import { useApp } from "../context/AppContext";
+import { formatPrice } from "../utils/helpers";
+import CustomSelect from "../components/CustomSelect";
 import "./Admin.css";
 
 const EMPTY_PRODUCT = {

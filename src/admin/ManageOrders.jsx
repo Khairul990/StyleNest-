@@ -1,7 +1,7 @@
 import React from "react";
-import { useApp } from "../../context/AppContext";
-import { getStatusColor, ORDER_STATUSES } from "../../utils/helpers";
-import CustomSelect from "../../components/CustomSelect";
+import { useApp } from "../context/AppContext";
+import { getStatusColor, ORDER_STATUSES } from "../utils/helpers";
+import CustomSelect from "../components/CustomSelect";
 import "./Admin.css";
 
 export default function ManageOrders() {

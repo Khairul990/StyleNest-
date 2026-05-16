@@ -1,6 +1,6 @@
 import React from "react";
-import { useApp } from "../../context/AppContext";
-import { getStatusColor } from "../../utils/helpers";
+import { useApp } from "../context/AppContext";
+import { getStatusColor } from "../utils/helpers";
 import "./Admin.css";
 
 export default function Dashboard() {
