@@ -129,3 +129,101 @@
   .nav-shop-btn { display: none; }
   .hamburger { display: flex; }
 }
+
+/* ── Dark / Light Mode Toggle ──────────────────────────── */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-glass);
+  border: 1.5px solid var(--border-color);
+  border-radius: 50px;
+  padding: 5px 12px 5px 5px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+  color: var(--text-primary);
+}
+.theme-toggle:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* Track (the pill) */
+.theme-toggle-track {
+  width: 36px;
+  height: 20px;
+  border-radius: 50px;
+  background: var(--accent-light);
+  border: 1.5px solid var(--border-color);
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s ease;
+  flex-shrink: 0;
+}
+.is-dark .theme-toggle-track {
+  background: rgba(201,169,110,0.25);
+}
+.is-light .theme-toggle-track {
+  background: rgba(139,105,20,0.15);
+}
+
+/* Thumb (circle that slides) */
+.theme-toggle-thumb {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
+  left: 2px;
+}
+.is-dark .theme-toggle-thumb {
+  transform: translateX(0px);
+  background: var(--accent);
+  color: var(--badge-text);
+}
+.is-light .theme-toggle-thumb {
+  transform: translateX(16px);
+  background: var(--accent);
+  color: var(--badge-text);
+}
+
+/* Label text */
+.theme-toggle-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+  transition: color 0.3s ease;
+}
+.theme-toggle:hover .theme-toggle-label {
+  color: var(--text-primary);
+}
+
+/* Mobile mode toggle */
+.mobile-mode-toggle {
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 4px;
+}
+.mobile-mode-toggle:hover {
+  background: var(--accent);
+  color: var(--badge-text);
+}
+
+@media (max-width: 768px) {
+  .theme-toggle { display: none; }
+}

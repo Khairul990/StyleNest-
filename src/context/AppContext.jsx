@@ -49,6 +49,24 @@ export function AppProvider({ children }) {
     document.title = settings.siteName + " — " + settings.tagline;
   }, [settings.theme, settings.siteName, settings.tagline]);
 
+  // ── Light / Dark mode toggle ──────────────────────────────
+  const LIGHT_THEMES = ["cream-luxury", "pure-white"];
+  const isDarkMode = !LIGHT_THEMES.includes(settings.theme);
+
+  const toggleDarkMode = () => {
+    setSettings((prev) => {
+      if (LIGHT_THEMES.includes(prev.theme)) {
+        // Switch to dark — restore last dark theme or default
+        const lastDark = localStorage.getItem("sn_last_dark_theme") || "luxury-dark";
+        return { ...prev, theme: lastDark };
+      } else {
+        // Switch to light — save current dark theme first
+        localStorage.setItem("sn_last_dark_theme", prev.theme);
+        return { ...prev, theme: "cream-luxury" };
+      }
+    });
+  };
+
   // ── Product CRUD ──────────────────────────────────────────
   const addProduct = (product) => {
     const newProduct = { ...product, id: "p" + Date.now() };
@@ -104,6 +122,7 @@ export function AppProvider({ children }) {
         categories, setCategories,
         orders, placeOrder, updateOrderStatus, getOrderById,
         adminLoggedIn, adminLogin, adminLogout,
+        isDarkMode, toggleDarkMode,
       }}
     >
       {children}
