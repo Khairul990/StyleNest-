@@ -10,7 +10,7 @@ export const initialSettings = {
   heroSubtitle: "Premium fashion for every occasion — Shop T-Shirts, Girls & Boys Fashion, Shoes, Accessories and more.",
   heroButtonText: "Shop Now",
   footerText: "© 2024 StyleNest. All rights reserved. Made with ❤️ for fashion lovers.",
-  whatsappNumber: "8801700000000", // Change this to your WhatsApp number
+  whatsappNumber: "919903591839", // Change anytime from Admin → Settings
   theme: "luxury-dark",
   accentColor: "#c9a96e",
   currency: "৳",
