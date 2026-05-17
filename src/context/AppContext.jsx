@@ -68,8 +68,17 @@ export function AppProvider({ children }) {
 
   // ── Locale & Translation ────────────────────────────────
   const [locale, setLocale] = useState(() => {
-    const saved = localStorage.getItem("sn_locale");
-    return saved ? JSON.parse(saved) : null; 
+    try {
+      const saved = localStorage.getItem("sn_locale");
+      if (!saved) return null;
+      const parsed = JSON.parse(saved);
+      if (typeof parsed === "string") {
+        return LOCALES[parsed] || null;
+      }
+      return parsed;
+    } catch (e) {
+      return null;
+    }
   });
   const [forceShowRegion, setForceShowRegion] = useState(false);
 

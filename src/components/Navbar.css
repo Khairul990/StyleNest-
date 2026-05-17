@@ -194,6 +194,10 @@
   font-weight: 500;
   border-radius: var(--radius);
   transition: var(--transition);
+  background: transparent;
+  border: none;
+  text-align: left;
+  width: 100%;
 }
 .mobile-link:hover {
   color: var(--text-primary);
@@ -204,6 +208,9 @@
   .nav-links { display: none; }
   .nav-shop-btn { display: none; }
   .hamburger { display: flex; }
+  .theme-toggle-label { display: none; }
+  .theme-toggle { padding: 4px; }
+  .nav-locale-btn { padding: 4px 8px; }
 }
 
 /* ── Dark / Light Mode Toggle ──────────────────────────── */
@@ -298,8 +305,4 @@
 .mobile-mode-toggle:hover {
   background: var(--accent);
   color: var(--badge-text);
-}
-
-@media (max-width: 768px) {
-  .theme-toggle { display: none; }
 }
