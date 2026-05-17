@@ -16,6 +16,158 @@ export default function ManageProducts() {
   const [form, setForm] = useState(EMPTY_PRODUCT);
   const [preview, setPreview] = useState(false);
   const [search, setSearch] = useState("");
+  const [dragActive, setDragActive] = useState({ 0: false, 1: false });
+
+  const handleImageDrop = (index) => (e) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if (files && files[0]) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = (uploadEvent) => {
+        const base64 = uploadEvent.target.result;
+        setForm(prev => {
+          const imgs = [...prev.images];
+          imgs[index] = base64;
+          return { ...prev, images: imgs };
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageSelect = (index) => (e) => {
+    const files = e.target.files;
+    if (files && files[0]) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = (uploadEvent) => {
+        const base64 = uploadEvent.target.result;
+        setForm(prev => {
+          const imgs = [...prev.images];
+          imgs[index] = base64;
+          return { ...prev, images: imgs };
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const renderDragDropArea = (index, label) => {
+    const imgUrl = form.images[index] || "";
+    const isDragActive = dragActive[index];
+
+    return (
+      <div className="form-group" style={{ marginBottom: 24 }}>
+        <label style={{ display: "block", marginBottom: 8, fontWeight: 600, fontSize: "0.88rem", color: "var(--text-secondary)" }}>{label}</label>
+        <div
+          onDragOver={(e) => { e.preventDefault(); setDragActive(prev => ({ ...prev, [index]: true })); }}
+          onDragLeave={() => setDragActive(prev => ({ ...prev, [index]: false }))}
+          onDrop={(e) => {
+            setDragActive(prev => ({ ...prev, [index]: false }));
+            handleImageDrop(index)(e);
+          }}
+          style={{
+            border: `2px dashed ${isDragActive ? "var(--accent)" : "var(--border-color)"}`,
+            borderRadius: "var(--radius)",
+            background: isDragActive ? "var(--accent-light)" : "var(--bg-glass)",
+            padding: "24px 20px",
+            textAlign: "center",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: 140,
+            overflow: "hidden"
+          }}
+          onClick={() => document.getElementById(`file-input-${index}`).click()}
+        >
+          {imgUrl ? (
+            <div style={{ position: "relative", width: "100%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <img
+                src={imgUrl}
+                alt="Product preview"
+                style={{
+                  maxHeight: 120,
+                  maxWidth: "100%",
+                  objectFit: "contain",
+                  borderRadius: 8,
+                  border: "1px solid var(--border-color)",
+                  marginBottom: 8
+                }}
+              />
+              <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Drag image or click to replace</span>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setForm(prev => {
+                    const imgs = [...prev.images];
+                    imgs[index] = "";
+                    return { ...prev, images: imgs };
+                  });
+                }}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  background: "#ef4444",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "50%",
+                  width: 24,
+                  height: 24,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "0.8rem",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.3)"
+                }}
+              >
+                ✕
+              </button>
+            </div>
+          ) : (
+            <>
+              <div style={{ fontSize: "2rem", marginBottom: 8 }}>📤</div>
+              <p style={{ fontSize: "0.88rem", fontWeight: 500, color: "var(--text-primary)" }}>
+                Drag & Drop image here, or <span style={{ color: "var(--accent)" }}>browse</span>
+              </p>
+              <p style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: 4 }}>
+                Supports PNG, JPG, JPEG, WEBP
+              </p>
+            </>
+          )}
+          <input
+            id={`file-input-${index}`}
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleImageSelect(index)}
+          />
+        </div>
+        <div style={{ marginTop: 8 }}>
+          <input
+            className="form-control"
+            style={{ padding: "6px 12px", fontSize: "0.78rem", height: "auto" }}
+            placeholder="Or paste direct image URL here..."
+            value={imgUrl.startsWith("data:") ? "" : imgUrl}
+            onChange={(e) => setForm(prev => {
+              const imgs = [...prev.images];
+              imgs[index] = e.target.value;
+              return { ...prev, images: imgs };
+            })}
+          />
+        </div>
+      </div>
+    );
+  };
+
 
   const filtered = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
@@ -118,14 +270,8 @@ export default function ManageProducts() {
               <label>Colors (comma-separated, e.g. Black, White, Red)</label>
               <input className="form-control" value={Array.isArray(form.colors) ? form.colors.join(", ") : form.colors} onChange={(e) => setForm(p => ({ ...p, colors: e.target.value }))} />
             </div>
-            <div className="form-group">
-              <label>Image URL</label>
-              <input className="form-control" value={form.images[0] || ""} onChange={(e) => setForm(p => ({ ...p, images: [e.target.value, ...(p.images.slice(1))] }))} placeholder="https://..." />
-            </div>
-            <div className="form-group">
-              <label>Second Image URL (optional)</label>
-              <input className="form-control" value={form.images[1] || ""} onChange={(e) => setForm(p => ({ ...p, images: [p.images[0], e.target.value] }))} placeholder="https://..." />
-            </div>
+            {renderDragDropArea(0, "Product Image (Primary)")}
+            {renderDragDropArea(1, "Second Product Image (Optional)")}
             <div style={{ display: "flex", gap: 24 }}>
               <label style={{ display: "flex", gap: 8, alignItems: "center", cursor: "pointer", color: "var(--text-secondary)", fontSize: "0.9rem" }}>
                 <input type="checkbox" checked={form.inStock} onChange={set("inStock")} />
